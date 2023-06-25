@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './index.css'
+import './index.css';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
@@ -8,20 +8,21 @@ const ContactForm = () => {
   const [message, setMessage] = useState('');
   const [data, setData] = useState(null);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post('https://www.greatfrontend.com/api/questions/contact-form'
-      , {
+    axios
+      .post('https://www.greatfrontend.com/api/questions/contact-form', {
         name,
         email,
         message,
+      })
+      .then((response) => {
+        setData({ success: true, message: response.data });
+      })
+      .catch((error) => {
+        setData({ success: false, message: 'An error occurred' });
       });
-      setData({ success: true, message: response.data });
-    } catch (error) {
-      setData({ success: false, message: 'An error occurred' });
-    }
   };
 
   return (
